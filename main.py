@@ -5,6 +5,7 @@ from movie import Movie
 from rental import Rental
 from customer import Customer
 
+
 def make_movies():
     """Some sample movies."""
     movies = [
