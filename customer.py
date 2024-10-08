@@ -43,7 +43,6 @@ class Customer:
         rental_fmt = "{:40s}  {:6d} {:6.2f}\n"
         
         for rental in self.rentals:
-            amount = rental.get_price()
             # compute the frequent renter points based on movie price code
             if rental.get_movie().get_price_code() == Movie.NEW_RELEASE:
                 # New release earns 1 point per day rented
@@ -55,9 +54,9 @@ class Customer:
             statement += rental_fmt.format(
                             rental.get_movie().get_title(), 
                             rental.get_days_rented(), 
-                            amount)
+                            rental.get_price())
             # and accumulate activity
-            total_amount += amount
+            total_amount += rental.get_price()
 
         # footer: summary of charges
         statement += "\n"
