@@ -55,3 +55,13 @@ class RentalTest(unittest.TestCase):
 		# new movies get more points per day rented
 		rental = Rental(self.new_movie, 50)
 		self.assertEqual(rental.rental_points(), 50)
+
+	def test_movies(self):
+		"""
+		Movies should be different objects but have the same PriceStrategy
+		if their types are the same.
+		"""
+		newer_movie = Movie("The minecraft movie", Movie.NEW_RELEASE)
+		self.assertNotEqual(newer_movie, self.new_movie)
+		self.assertEqual(newer_movie.price_code, self.new_movie.price_code)
+		self.assertNotEqual(self.regular_movie.price_code, self.new_movie.price_code)
