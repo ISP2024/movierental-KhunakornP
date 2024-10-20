@@ -60,7 +60,7 @@ class RentalTest(unittest.TestCase):
 		Movies should be different objects but have the same PriceStrategy
 		if their types are the same.
 		"""
-		newer_movie = Movie("The minecraft movie", 2025, ["Comedy"])
+		newer_movie = Movie("The minecraft movie", date.today().year, ["Comedy"])
 		rental1 = Rental(newer_movie, 3)
 		rental2 = Rental(self.new_movie, 4)
 		rental3 = Rental(self.childrens_movie, 5)
