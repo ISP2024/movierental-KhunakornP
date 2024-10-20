@@ -22,7 +22,18 @@ See [Resources](https://cpske.github.io/ISP/assignment/movierental/movierental-p
 2.1) The refactoring sign (code smells) Dead code suggests this since after invoking the PriceStrategy objects directly
 in Rental, Movie has no use for the PriceStrategy classes, and therefore they go unused in Movie. Dead code suggests
 that we remove any unused code so that we reduce code size.
+
 2.2) The design principle that suggests this refactoring is Strive for loosely coupled objects.
 Since price_code in Movie is a different class of objects we don't want to change Movie if we change
 the PriceStrategy objects.
+
+5.2) I implemented get_price_for_movie in Rentals because I think that since Rental already uses "price_code" methods
+having it in Rentals will improve cohesion (High Cohesion). 
+
+Additionally, Rental already has a reference to movie, so
+it can already determine which PriceStrategy object the movie should have by using datetime to get the year and the
+genre from Movie (Information expert). 
+
+Finally, since Rentals are created frequently, and it also gets rental prices and
+points it makes sense that the responsibility for assigning prices should be Rental.
 
