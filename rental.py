@@ -27,12 +27,8 @@ class Rental:
 
 	def get_price(self):
 		"""compute rental change"""
-		return self.movie.get_price(self.days_rented)
+		return self.movie.price_code.get_price(self.days_rented)
 
 	def rental_points(self):
 		"""compute the frequent renter points based on movie price code"""
-		if self.get_movie().get_price_code() == self.movie.NEW_RELEASE:
-			# New release earns 1 point per day rented
-			return self.get_days_rented()
-		# other rentals get 1 point
-		return 1
+		return self.movie.price_code.get_rental_points(self.days_rented)
