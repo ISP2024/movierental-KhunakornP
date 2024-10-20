@@ -44,31 +44,17 @@ class MovieCatalog:
 
     def get_movie(self, title: str, year: int = None):
         """Get the first matching movie from the catalogue."""
-        movie = self.find_movie_in_catalog(title, year)
-        if movie:
-            return movie
-        try:
-            while True:
-                movie_info = next(self._movie_generator)
-                movie = Movie(movie_info[1],
-                              movie_info[2],
-                              [x for x in movie_info[3].split("|")])
-                self._movies.append(movie)
-                if self.search_movie(movie, title, year):
-                    return movie
-        except StopIteration:
-            return None
-
-    def find_movie_in_catalog(self, title: str, year: int = None):
-        """
-        Find if the movie with the title and year provided is in the catalog.
-
-        :return: A Movie object with the title and year if found.
-         None otherwise.
-        """
+        # try to find the movies in catalog first
         for movie in self._movies:
             if self.search_movie(movie, title, year):
                 return movie
+
+        # movie was not found try reading from data file
+        for movie in self._movie_generator:
+            if self.search_movie(movie, title, year):
+                return movie
+
+        # No movie found
         return None
 
     @staticmethod
@@ -82,9 +68,15 @@ class MovieCatalog:
         """Generator for getting movies"""
         next(cls._movie_data)  # skip the column names
         for row in cls._movie_data:
-            if row[0][0] == "#" or len(row) != 4:
+            if len(row) < 1 or row[0][0] == "#":  # blank row or comment
+                continue
+            try:
+                movie = Movie(row[1],
+                              row[2],
+                              [x for x in row[3].split("|")])
+                cls._movies.append(movie)
+                yield movie
+            except (IndexError, ValueError, TypeError):
                 movie_logger.error(
                     f'Line {cls._movie_data.line_num}: '
                     f'Unrecognized format "{", ".join(row)}"')
-                continue
-            yield row
