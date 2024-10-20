@@ -18,3 +18,11 @@ Before and after each refactoring you should **run the unit tests**.
 
 See [Resources](https://cpske.github.io/ISP/assignment/movierental/movierental-part1#resources) in the assignment description.
 
+##  Rationale
+2.1) The refactoring sign (code smells) Dead code suggests this since after invoking the PriceStrategy objects directly
+in Rental, Movie has no use for the PriceStrategy classes, and therefore they go unused in Movie. Dead code suggests
+that we remove any unused code so that we reduce code size.
+2.2) The design principle that suggests this refactoring is Strive for loosely coupled objects.
+Since price_code in Movie is a different class of objects we don't want to change Movie if we change
+the PriceStrategy objects.
+
